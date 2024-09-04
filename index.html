@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="nav-icons">
+            <a href="index.html"><img src="home-icon.png" alt="Início"></a>
+            <a href="profile.php"><img src="profile-icon.png" alt="Perfil"></a>
+        </div>
+        <h1>Página Inicial</h1>
+    </header>
+
+    <div class="content">
+        <h2>Comprar Máquinas de Vendas Automáticas</h2>
+
+        <!-- Máquina 1 -->
+        <div class="item-box">
+            <div class="machine-image">
+                <img src="machine1.jpg" alt="Máquina 1">
+            </div>
+            <div class="item-info">
+                <h3>Máquina 1</h3>
+                <p>Valor: <span class="value">R$ 9</span></p>
+                <p>Retorno: <span class="return">R$ 16</span></p>
+                <p>Tempo: <span class="time">2 dias</span></p>
+                <p>Compra: <span class="buy">1 vez</span></p>
+                <form id="buyMachine1" onsubmit="return processPurchase('Máquina 1', 9, 16, 1)">
+                    <button type="submit">Compre Agora</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Máquina 2 -->
+        <div class="item-box">
+            <div class="machine-image">
+                <img src="machine2.jpg" alt="Máquina 2">
+            </div>
+            <div class="item-info">
+                <h3>Máquina 2</h3>
+                <p>Valor: <span class="value">R$ 19</span></p>
+                <p>Retorno: <span class="return">R$ 26</span></p>
+                <p>Tempo: <span class="time">4 dias</span></p>
+                <p>Compra: <span class="buy">1 vez</span></p>
+                <form id="buyMachine2" onsubmit="return processPurchase('Máquina 2', 19, 26, 2)">
+                    <button type="submit">Compre Agora</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Máquina 3 -->
+        <div class="item-box">
+            <div class="machine-image">
+                <img src="machine3.jpg" alt="Máquina 3">
+            </div>
+            <div class="item-info">
+                <h3>Máquina 3</h3>
+                <p>Valor: <span class="value">R$ 34</span></p>
+                <p>Retorno: <span class="return">R$ 48</span></p>
+                <p>Tempo: <span class="time">4 dias</span></p>
+                <p>Compra: <span class="buy">1 vez</span></p>
+                <form id="buyMachine3" onsubmit="return processPurchase('Máquina 3', 34, 48, 3)">
+                    <button type="submit">Compre Agora</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simula um banco de dados de usuários
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        function processPurchase(machineName, price, returnAmount, machineId) {
+            // Verifica se o usuário está logado
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (!currentUser) {
+                alert('Você deve estar logado para realizar uma compra.');
+                return false;
+            }
+
+            let user = users.find(u => u.id === currentUser.id);
+
+            if (!user) {
+                alert('Usuário não encontrado.');
+                return false;
+            }
+
+            // Verifica se o saldo é suficiente
+            if (user.balance < price) {
+                alert('Saldo insuficiente para a compra.');
+                return false;
+            }
+
+            // Atualiza o saldo
+            user.balance -= price;
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Log da compra
+            let purchaseLog = JSON.parse(localStorage.getItem('purchaseLog')) || [];
+            purchaseLog.push({
+                machineId: machineId,
+                userId: user.id,
+                balanceAfterPurchase: user.balance,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('purchaseLog', JSON.stringify(purchaseLog));
+
+            alert(`Compra realizada com sucesso!\nMáquina: ${machineName}\nValor: R$ ${price}\nRetorno: R$ ${returnAmount}`);
+            return false;
+        }
+    </script>
+</body>
+</html>

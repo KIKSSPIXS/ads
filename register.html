@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Cadastro</h1>
+    </header>
+
+    <div class="form-container">
+        <form action="register.php" method="POST">
+            <label for="username">Nome de Usuário:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="affiliateCode">Código de Afiliado:</label>
+            <input type="text" id="affiliateCode" name="affiliateCode" required>
+            
+            <button type="submit">Cadastrar</button>
+        </form>
+        
+        <p class="login-link">
+            Já tem uma conta? <a href="login.html">Faça login</a>
+        </p>
+    </div>
+</body>
+</html>
